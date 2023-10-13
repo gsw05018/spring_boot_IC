@@ -12,14 +12,14 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
-    // questionRepository 연결
-    private final QuestionRepository questionRepository;
+    // questionService 연결
+    private final QuestionService questionService;
 
     @GetMapping("/question/list")
     public String list(Model model){
 
-        // questionRepositroy에서 모든 질문 목록을 가져옴
-        List<Question> questionList = this.questionRepository.findAll();
+        // questionService를 통해 질문 목록을 가져옴
+        List<Question> questionList = this.questionService.getList();
 
         // model에서 questionlist를 추가하여 view에서 사용할 수 있게 함
         model.addAttribute("questionList", questionList);
