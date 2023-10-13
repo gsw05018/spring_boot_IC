@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
 
-    @GetMapping
+    @GetMapping("/sbb")
     @ResponseBody
     public String index(){
         return "다시 시작";
