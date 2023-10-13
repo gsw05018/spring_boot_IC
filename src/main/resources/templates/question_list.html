@@ -8,7 +8,10 @@
     </thead>
     <tbody>
         <tr th:each="question : ${questionList}">
-             <td th:text="${question.subject}"></td>
+             <td>
+                 <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+<!--       th:href에서 링크는 @{링크}사이에 적어야 하고 question/detail인 문자열과 ${question.id}인 자바객체를 함께 쓸때는 양쪽에 ||를 써야 오류가 안난다           -->
+             </td>
              <td th:text="${question.createDate}"></td>
         </tr>
     </tbody>

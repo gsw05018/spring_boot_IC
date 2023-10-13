@@ -1,13 +1,17 @@
 package com.sbs.sbb.Question;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
+@RequestMapping("/question") // question 생략 가능
 @RequiredArgsConstructor // loombok 라이브러리로 final에 대해 자동으로 생성자 생성
 @Controller
 public class QuestionController {
@@ -15,7 +19,7 @@ public class QuestionController {
     // questionService 연결
     private final QuestionService questionService;
 
-    @GetMapping("/question/list")
+    @GetMapping("/list")
     public String list(Model model){
 
         // questionService를 통해 질문 목록을 가져옴
@@ -30,12 +34,15 @@ public class QuestionController {
 
     }
 
-    @GetMapping("/")
-    public String root(){
-        return "redirect:/question/list";
+    @GetMapping(value = "/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Integer id) {
+
+        Question question = this.questionService.getQuestion(id);
+        // 서비스에서 id를 이용해 질문을 불러옴
+        model.addAttribute("question", question);
+        // question이름으로 model에 추가됨
+        return "question_detail";
+        // question_detail 뷰를 반환
     }
-    // 홈으로 이동시 리다이렉션하여 질문목록으로 이동시킴
-
-
 
 }
