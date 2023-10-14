@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AnswerController {
 
     private final QuestionService questionService; // QuestionService 객체를 주입받음
+    private final AnswerService answerService; // AnswerService 객체를 주입받음
 
     @GetMapping("/create/{id}") // GET요청을 처리하는 createAnswer 메소드정의하고 경로변수 받음
     public String createAnswer(Model model, @PathVariable Integer id, @RequestParam String content){
 
         Question question = this.questionService.getQuestion(id); // id에 해당되는 질문목록을 가져옴
+
+        this.answerService.create(question, content); // create 메서드를 호출할 때 question과 content를 전달하여 답변 생성
 
         return String.format("rediredct:/question/detail/%s", id); //해당 id에 대한 question/detail 엔드포인트로 리디렉션함
 
