@@ -1,13 +1,11 @@
-package com.sbs.sbb.Question;
+package com.sbs.sbb.question;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.sbs.sbb.Question;
+package com.sbs.sbb.question;
 
 import com.sbs.sbb.DataNoFoundException;
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.zip.DataFormatException;
 
 @RequiredArgsConstructor
 @Service
