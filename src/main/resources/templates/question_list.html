@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:frgment="content" class="container my-3">
+<div layout:fragment="content" class="container my-3">
     <table class="table">
         <thead class="table-dark">
         <tr>
@@ -19,6 +19,7 @@
         </tr>
         </tbody>
     </table>
+    <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
 
     <!-- model 객체에 저장된 questionList를 사용함-->
     <!--th속성은 타임리프 속성임-->
