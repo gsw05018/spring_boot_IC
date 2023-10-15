@@ -1,8 +1,10 @@
 package com.sbs.sbb.question;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,11 +43,27 @@ public class QuestionController {
         // question_detail 뷰를 반환
     }
 
-    @PostMapping("/create") // POST방식으로 http 요청 처리
-    public String questionCreate(@RequestParam String subject, @RequestParam String content){
-        this.questionService.create(subject, content);
-       // create메서드를 호출하여 질문 생성
+    @GetMapping("/create")
+    public String questionCreate(){
         return "question_form";
+    // 질문등록하기 눌렀을 때 메서드
     }
+
+    @PostMapping("/create") // POST방식으로 http 요청 처리
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult){
+        // QuestionForm 객체로 변경, subject content항목을 지닌 폼이 전송되면 QuestionForm의 subject, content속성이 자동으로 바인딩됨
+        // @Valid 애너테이션이 적용이 되면 검증 기능이 독장함
+        // BindingResult는 검증이 수행된 결과를 의미하는 객체임
+
+        if(bindingResult.hasErrors()){ // 오류가 있는 경우 폼작성 화면 반환
+            return "question_form";
+        }
+
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+       // create메서드를 호출하여 질문 생성
+        return "redirect:/question/list"; // 질문등록후 목록으로 이동
+        // 질문 등록 홈페이지 메서드
+    }
+
 
 }
