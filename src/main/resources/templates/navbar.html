@@ -1,0 +1,25 @@
+<!-- nav 태그는 내비게이션 바를 정의합니다. -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" th:fragment="navbarFragment">
+    <!-- container-fluid 클래스는 너비에 관한 부트스트랩 컨테이너를 만듭니다. -->
+    <div class="container-fluid">
+        <!-- href 속성을 사용하여 홈페이지로 이동하는 로고를 생성합니다. -->
+        <a href="/" class="navbar-brand">SBB</a>
+        <!-- 내비게이션 바의 토글 버튼은 작은 화면에서 내비게이션 항목들을 토글할 수 있도록 합니다. -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <!-- 내비게이션 바의 토글 아이콘을 나타냅니다. -->
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- 내비게이션 바의 항목을 담는 컨테이너입니다. -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- navbar-nav 클래스는 내비게이션 바의 항목을 담는 클래스입니다. -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- nav-item 클래스는 내비게이션 바의 각 항목을 담는 클래스입니다. -->
+                <li class="nav-item">
+                    <!-- href 속성을 사용하여 링크를 생성합니다. -->
+                    <a href="#" class="nav-link">로그인</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
