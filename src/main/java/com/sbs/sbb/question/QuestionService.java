@@ -4,6 +4,7 @@ import com.sbs.sbb.DataNoFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,14 @@ public class QuestionService {
             // 없다면 오류메시지 출력
         }
 
+    }
+
+    public void create(String subject, String content){
+        Question q = new Question(); // 제목과 내용으로 새로운 Question 객체 생성
+        q.setSubject(subject); // 새로운 제목 생성
+        q.setContent(content); // 새로운 내용 생성
+        q.setCreateDate(LocalDateTime.now()); // 현재시간을 작성날짜 설정
+        this.questionRepository.save(q); // 새로운 questijon객체를 저장
     }
 
 }

@@ -3,9 +3,7 @@ package com.sbs.sbb.question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,6 +39,13 @@ public class QuestionController {
         // question이름으로 model에 추가됨
         return "question_detail";
         // question_detail 뷰를 반환
+    }
+
+    @PostMapping("/create") // POST방식으로 http 요청 처리
+    public String questionCreate(@RequestParam String subject, @RequestParam String content){
+        this.questionService.create(subject, content);
+       // create메서드를 호출하여 질문 생성
+        return "question_form";
     }
 
 }
