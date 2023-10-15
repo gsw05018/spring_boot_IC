@@ -1,5 +1,6 @@
 package com.sbs.sbb.question;
 
+import com.sbs.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 
         Question question = this.questionService.getQuestion(id);
         // 서비스에서 id를 이용해 질문을 불러옴
