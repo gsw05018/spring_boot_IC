@@ -4,17 +4,20 @@
 <!-- 컨텐츠 부분 설정   -->
     <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
 <!--  폼 생성  -->
-    <form th:action="@{/question/create}" method="post">
+    <form th:action="@{/question/create}" method="post" th:object="${questionForm}">
 <!--    서버로 전송할 경로와 전송방법 설정    -->
+        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+        </div>
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
 <!--   입력 필드 생성         -->
-            <input type="text" name="subject" id="subject" class="form-control">
+            <input type="text" name="subject" id="subject" th:field="*{subject}" class="form-control">
 <!--   텍스트를 입력 받는 필드 생성     -->
         </div>
         <div class="mb-3">
-            <label for="content" class="form-label">제목</label>
-            <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+            <label for="content" class="form-label">내용</label>
+            <textarea name="content" id="content" th:field="*{content}" class="form-control" rows="10"></textarea>
         </div>
         <input type="submit" value="저장하기" class="btn btn-primary my-2">
 <!-- 제출 버튼 생성 -->

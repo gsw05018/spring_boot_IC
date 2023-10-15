@@ -44,7 +44,7 @@ public class QuestionController {
     }
 
     @GetMapping("/create")
-    public String questionCreate(){
+    public String questionCreate(QuestionForm questionForm){
         return "question_form";
     // 질문등록하기 눌렀을 때 메서드
     }
