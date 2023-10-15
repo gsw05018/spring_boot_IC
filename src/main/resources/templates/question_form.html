@@ -6,9 +6,8 @@
 <!--  폼 생성  -->
     <form th:action="@{/question/create}" method="post" th:object="${questionForm}">
 <!--    서버로 전송할 경로와 전송방법 설정    -->
-        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
-        </div>
+       <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+<!--     form_errors 템플릿를 현재 위치에 삽입하는 역할   -->
         <div class="mb-3">
             <label for="subject" class="form-label">제목</label>
 <!--   입력 필드 생성         -->
