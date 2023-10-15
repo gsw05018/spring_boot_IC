@@ -1,22 +1,26 @@
-
-<table>
-    <thead>
-    <tr>
-        <th>제목</th>
-        <th>작성일자</th>
-    </tr>
-    </thead>
-    <tbody>
-        <tr th:each="question : ${questionList}">
-             <td>
-                 <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
-<!--       th:href에서 링크는 @{링크}사이에 적어야 하고 question/detail인 문자열과 ${question.id}인 자바객체를 함께 쓸때는 양쪽에 ||를 써야 오류가 안난다           -->
-             </td>
-             <td th:text="${question.createDate}"></td>
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+<div class="container my-3">
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일자</th>
         </tr>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <tr th:each="question , loop : ${questionList}">
+            <td th:text="${loop.count}"></td>
+            <td>
+                <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                <!--       th:href에서 링크는 @{링크}사이에 적어야 하고 question/detail인 문자열과 ${question.id}인 자바객체를 함께 쓸때는 양쪽에 ||를 써야 오류가 안난다           -->
+            </td>
+            <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
 
-<!-- model 객체에 저장된 questionList를 사용함-->
-<!--th속성은 타임리프 속성임-->
-<!--text속성은 값을 출력함-->
+    <!-- model 객체에 저장된 questionList를 사용함-->
+    <!--th속성은 타임리프 속성임-->
+    <!--text속성은 값을 출력함-->
+</div>
