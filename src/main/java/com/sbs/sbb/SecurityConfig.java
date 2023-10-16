@@ -22,6 +22,9 @@ public class SecurityConfig {
                         // http 요청에 대한 권한 부여
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                         // 모든 URL 패턴에 대해 권한을 permitaAll()로 설정
+                .formLogin((formLogin) -> formLogin
+                        .loginPage("/user/login") // 사용자가 로그인을 하지 않았을 때 리디렉션되는 기본 로그인 URL정의
+                        .defaultSuccessUrl("/")) // 사용자가 로그인을 완료후 이동되는 URL
 
         ;
         return http.build();
