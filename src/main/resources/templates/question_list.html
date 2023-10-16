@@ -19,6 +19,30 @@
         </tr>
         </tbody>
     </table>
+<!--  페이징 처리  -->
+    <div th:if="${!paging.isEmpty()}">
+<!--      페이지가 비어있지 않은 경우에만 페이징 표시  -->
+        <ul class="pagination justify-content-center">
+<!--         페이지 번호를 포함하는 페이지네이션 중앙 정렬   -->
+            <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+<!--           이전 페이지가 없는 경우 링크 비활성화     -->
+                <a th:href="@{|?page=${paging.number-1}|}" class="page-link" ><span>이전</span></a>
+<!--            이전 페이지로 이동 링크    -->
+            </li>
+           <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}" th:classappend="${page == paging.number} ? 'active'"
+           class="page-item" th:if="${page >= paging.number - 5 and page <= paging.number+5}">
+<!--        현재 페이지를 나타내기 위해 활성화된 페이지 강조  , 현재 페이지를 기준으로 좌우 5개씩 보이게 만듬     -->
+               <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page}"></a>
+<!--           페이지 번호를 클릭하면 해당 페이지로 이동    -->
+           </li>
+            <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+<!--              다음 페이지가 없는 경우 링크 비활성화  -->
+                <a class="page-link" th:href="@{|?page=${paging.number+1}|}"><span>다음</span></a>
+<!--            다음 페이지로 이동하는 링크 생성    -->
+            </li>
+        </ul>
+    </div>
+<!--   페이징 끝 -->
     <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
 
     <!-- model 객체에 저장된 questionList를 사용함-->

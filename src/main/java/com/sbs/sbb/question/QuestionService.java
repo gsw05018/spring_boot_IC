@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +21,12 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
 
     public Page<Question> getList(int page){
-        Pageable pageable = PageRequest.of(page,10);
+        List<Sort.Order> sorts = new ArrayList<>();
+        // Sort.Order 객체를 요소로 하는 새로운 리스트 생성
+        sorts.add(Sort.Order.desc("createDate"));
+        // createDate필드를 기준으로 내림차순으로 정렬하는 Sort.order 객체를 리스트에 추가
+        Pageable pageable = PageRequest.of(page,10, Sort.by(sorts));
+        // sort.by(sorts)는 정렬 조건을 나타냄
         // Pageable 객체를 생성하여 페이지 번호와 페이지당 표시할 항목의 수 설정
         // 데이터 전체를 조회하지 않고 해당 페이지의 데이터만 조회 함
         return this.questionRepository.findAll(pageable);
