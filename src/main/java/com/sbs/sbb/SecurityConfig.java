@@ -20,6 +20,7 @@ public class SecurityConfig {
                         // http 요청에 대한 권한 부여
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
                         // 모든 URL 패턴에 대해 권한을 permitaAll()로 설정
+
         ;
         return http.build();
     }
