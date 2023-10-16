@@ -3,6 +3,8 @@ package com.sbs.sbb.question;
 import com.sbs.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,13 +21,12 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0")int page){
 
-        // questionService를 통해 질문 목록을 가져옴
-        List<Question> questionList = this.questionService.getList();
-
-        // model에서 questionlist를 추가하여 view에서 사용할 수 있게 함
-        model.addAttribute("questionList", questionList);
+        Page<Question> paging = this.questionService.getList(page);
+        // 페이지 번호를 기반으로 questionService의 getList메서드를 호출하여 페이지별 질문 목록을 가져옴
+        model.addAttribute("paging", paging);
+        // 모델에 페이징 정보 저장
 
         return "question_list";
     // html을 출력하기 위해서는 Reposbody를 지우고 getmapping만 사용해 링크를 연결해줌

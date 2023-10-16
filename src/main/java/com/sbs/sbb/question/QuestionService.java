@@ -2,6 +2,9 @@ package com.sbs.sbb.question;
 
 import com.sbs.sbb.DataNoFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,11 +18,13 @@ public class QuestionService {
     // questionRepository 연결
     private final QuestionRepository questionRepository;
 
-    public List<Question> getList(){
-        // questionRepository를 통해 질문 목록을 가져옴
-        return this.questionRepository.findAll();
+    public Page<Question> getList(int page){
+        Pageable pageable = PageRequest.of(page,10);
+        // Pageable 객체를 생성하여 페이지 번호와 페이지당 표시할 항목의 수 설정
+        // 데이터 전체를 조회하지 않고 해당 페이지의 데이터만 조회 함
+        return this.questionRepository.findAll(pageable);
+        // findAll 메서드를 호출하여 페이지 요청에 따라 해당 페이지의 질문 목록을 가져옴
     }
-
     public Question getQuestion(Integer id){
 
         Optional<Question> question = this.questionRepository.findById(id);
@@ -42,5 +47,7 @@ public class QuestionService {
         q.setCreateDate(LocalDateTime.now()); // 현재시간을 작성날짜 설정
         this.questionRepository.save(q); // 새로운 questijon객체를 저장
     }
+
+
 
 }
