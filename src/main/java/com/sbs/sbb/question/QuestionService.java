@@ -1,6 +1,7 @@
 package com.sbs.sbb.question;
 
 import com.sbs.sbb.DataNoFoundException;
+import com.sbs.sbb.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,11 +48,12 @@ public class QuestionService {
 
     }
 
-    public void create(String subject, String content){
+    public void create(String subject, String content, SiteUser user){
         Question q = new Question(); // 제목과 내용으로 새로운 Question 객체 생성
         q.setSubject(subject); // 새로운 제목 생성
         q.setContent(content); // 새로운 내용 생성
         q.setCreateDate(LocalDateTime.now()); // 현재시간을 작성날짜 설정
+        q.setAuthor(user);
         this.questionRepository.save(q); // 새로운 questijon객체를 저장
     }
 
