@@ -2,6 +2,7 @@ package com.sbs.sbb.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,23 @@ public class UserController {
             // 오류가 있을시 오류메시지 출현
             return "signup_form"; // 있을시 signup_form 렌더딩
         }
-        userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1()); // userService를 호출하여 새 사용자 생성
+
+        try {
+            userService.create(userCreateForm.getUsername(), userCreateForm.getEmail(), userCreateForm.getPassword1()); // userService를 호출하여 새 사용자 생성
+            // 새로운 사용자를 생성
+        } catch (DataIntegrityViolationException e){
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다");
+            return "signup_form";
+            // 데이터베이스관련 오류처리
+
+        } catch (Exception e){
+            e.printStackTrace();
+            bindingResult.reject("signupFailed", e.getMessage());
+            return "signup_form";
+        }
+        // 그 외 각종 오류 처리 
+
         return "redirect:/"; // 성공을 했을 시 페이지 리디렉션 홈으로
     }
 
