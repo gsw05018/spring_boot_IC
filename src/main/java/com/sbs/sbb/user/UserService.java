@@ -1,5 +1,6 @@
 package com.sbs.sbb.user;
 
+import com.sbs.sbb.DataNoFoundException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,4 +41,16 @@ public class UserService {
     // 암호화 방식을 변경하면 BCrypasswordEncoder를 사용한 모든 프로그램을 일일이 찾아서 수정해야 하기 때문
     // SecutityConfig에 @Been 메서드 생성하는것이 제일 좋은 방법
 
+
+    public SiteUser getUSer(String username){
+        Optional<SiteUser> siteUser = this.userRepository.findByusername(username);
+        // 사용자명을 기반으로 사용자를 찾음
+        if(siteUser.isPresent()){
+            return siteUser.get();
+            // 사용자가 있다면 해당 사용자 반환
+        } else {
+          throw new DataNoFoundException("siteuser not found");
+          // 없을시 오류 메시지 출현
+        }
+    }
 }

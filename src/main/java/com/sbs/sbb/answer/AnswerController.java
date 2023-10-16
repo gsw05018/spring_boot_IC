@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller // 스프링 컨트루러임을 나타냄
 @RequiredArgsConstructor // 롬북을 사용하여 생성자 주입을 위해 필요한 생성자를 자동으로 생성
 @RequestMapping("/answer") // 기본경로 설정
@@ -18,8 +20,8 @@ public class AnswerController {
     private final AnswerService answerService; // AnswerService 객체를 주입받음
 
     @PostMapping("/create/{id}") // Post요청을 처리하는 createAnswer 메소드정의하고 경로변수 받음
-    public String createAnswer(Model model, @PathVariable Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult){
-
+    public String createAnswer(Model model, @PathVariable Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal){
+// Principal 객체를 사용해 사용자에 대한 정보 제공
 
         Question question = this.questionService.getQuestion(id); // id에 해당되는 질문목록을 가져옴
 
