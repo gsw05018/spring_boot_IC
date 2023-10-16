@@ -1,0 +1,28 @@
+<html layout:decorate="~{layout}">
+<!--레이아웃 파일지정-->
+<div layout:fragment="content" class="container my-3">
+<!--   레이아웃 파일의 일부로 포함된 콘텐츠 정의 -->
+        <div class="my-3 border-bottom">
+            <div>
+                <h4>로그인</h4>
+            </div>
+        </div>
+    <form th:action="@{/user/login}" method="post">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                사용자 ID또는 비밀번호를 입력하세요
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자 ID</label>
+            <input type="text" name="username" id="username" class="form-contorl">
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">비밀번호</label>
+            <input type="password" name="password" id="password" class="form-contorl">
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+</div>
+</html>
+

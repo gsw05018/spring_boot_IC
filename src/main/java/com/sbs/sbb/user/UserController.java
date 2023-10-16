@@ -49,9 +49,13 @@ public class UserController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "signup_form";
         }
-        // 그 외 각종 오류 처리 
+        // 그 외 각종 오류 처리
 
         return "redirect:/"; // 성공을 했을 시 페이지 리디렉션 홈으로
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login_form";
+    }
 }
