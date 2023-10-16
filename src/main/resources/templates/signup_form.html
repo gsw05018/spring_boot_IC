@@ -1,0 +1,36 @@
+<html layout:decorate="~{layout}">
+<!--레이아웃 파일지정-->
+<div layout:fragment="content" class="container my-3">
+<!--   레이아웃 파일의 일부로 포함된 콘텐츠 정의 -->
+        <div class="my-3 border-bottom">
+            <div>
+                <h4>회원가입</h4>
+            </div>
+        </div>
+    <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+<!--    URL 지정, 사용될 객체 지정, http 정의    -->
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+<!--     error message 연결   -->
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자ID</label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input  type="password" th:field="*{password1}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input  type="password" th:field="*{password2}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input  type="text" th:field="*{email}" class="form-control">
+        </div>
+<!--    th:field를 쓰면 label이랑 연결되는 id속성을 사용하지 않아도 된다 !!!   -->
+<!--     필드의 이름으 ㄹ기반으로 필드 값을 바인딩하고 처리하는데 사용됨   -->
+        <button type="submit" class="btn btn-primary">회원가입</button>
+    </form>
+</div>
+</html>
+
