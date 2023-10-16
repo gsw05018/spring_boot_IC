@@ -1,6 +1,7 @@
 package com.sbs.sbb.question;
 
 import com.sbs.sbb.answer.Answer;
+import com.sbs.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,4 +30,7 @@ public class Question {
     // 외래키 관계 question을 참조 질문이 삭제되면 답변도 삭제
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    @ManyToOne
+    private SiteUser author;
 }

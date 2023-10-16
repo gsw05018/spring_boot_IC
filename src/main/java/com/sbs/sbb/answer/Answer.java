@@ -1,6 +1,7 @@
 package com.sbs.sbb.answer;
 
 import com.sbs.sbb.question.Question;
+import com.sbs.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,4 +26,7 @@ public class Answer {
 
     @ManyToOne // 외래키 관계, question_id가 생김
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }
