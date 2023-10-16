@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,12 +50,14 @@ public class QuestionController {
         // question_detail 뷰를 반환
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm){
         return "question_form";
     // 질문등록하기 눌렀을 때 메서드
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create") // POST방식으로 http 요청 처리
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal){
         // QuestionForm 객체로 변경, subject content항목을 지닌 폼이 전송되면 QuestionForm의 subject, content속성이 자동으로 바인딩됨

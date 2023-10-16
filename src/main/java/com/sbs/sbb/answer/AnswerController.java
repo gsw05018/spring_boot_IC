@@ -6,6 +6,7 @@ import com.sbs.sbb.user.SiteUser;
 import com.sbs.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ public class AnswerController {
     private final AnswerService answerService; // AnswerService 객체를 주입받음
     private final UserService userService;
 
+    @PreAuthorize("isAuthenticated()") // login시만 이용 가능
     @PostMapping("/create/{id}") // Post요청을 처리하는 createAnswer 메소드정의하고 경로변수 받음
     public String createAnswer(Model model, @PathVariable Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal){
 // Principal 객체를 사용해 사용자에 대한 정보 제공
