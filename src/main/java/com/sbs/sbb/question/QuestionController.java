@@ -7,11 +7,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -74,6 +76,23 @@ public class QuestionController {
         return "redirect:/question/list"; // 질문등록후 목록으로 이동
         // 질문 등록 홈페이지 메서드
     }
+
+    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal){
+        Question question = this.questionService.getQuestion(id);
+        // id에 해당되는 질문을 가져옴
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            // 현재 사용자와 질문 작성가 같는지 확인
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
+            // 같지 않을 시 오류메시지 던짐
+        }
+        questionForm.setSubject(question.getSubject());
+        // 질문의 제목을 폼에 설정
+        questionForm.setContent(question.getContent());
+        // 질문의 내용을 폼에 설정
+        return "question_form";
+
+    }
+
 
 
 }
