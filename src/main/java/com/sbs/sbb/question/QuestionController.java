@@ -77,6 +77,8 @@ public class QuestionController {
         // 질문 등록 홈페이지 메서드
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
     public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal){
         Question question = this.questionService.getQuestion(id);
         // id에 해당되는 질문을 가져옴
@@ -93,6 +95,23 @@ public class QuestionController {
 
     }
 
-
-
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult, @PathVariable("id") Integer id, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "question_form";
+            // 오류가 날시 다시 돌아감
+        }
+        Question question = this.questionService.getQuestion(id);
+        // 수정하려는 질문의 정보를 가져옴
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            // 현재사용자와 질문사용자가 맞는지 확인
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다");
+            // 맞지 않을시 오류메시지 출현
+        }
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        // 질문의 제목과 내용을 수정된 양식으로 변경, 수정날짜도 현재날짜로 변경
+        return String.format("redirect:/question/detail/%s", id);
+        // 수정된 질문의 상세페이지로 이동
+    }
 }
