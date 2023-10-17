@@ -38,9 +38,9 @@ public class AnswerController {
             return "question_detail"; // 오류가 있는 경우에도 데이터 유지하면서 페이지로 감
         }
 
-        this.answerService.create(question, answerForm.getContent(), siteUser); // create 메서드를 호출할 때 question과 content를 전달하여 답변 생성 / siteuser얻어서 답변을 등록하는 AnswerService create메서드에 전달하여 답변 저장
+        Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
 
-        return String.format("redirect:/question/detail/%s", id); //해당 id에 대한 question/detail 엔드포인트로 리디렉션함
+        return String.format("redirect:/question/detail/%s#answer_%s", id, answer.getQuestion().getId(), answer.getId()); //해당 id에 대한 question/detail 엔드포인트로 리디렉션함
 
     }
 
@@ -102,7 +102,7 @@ public class AnswerController {
         // name을 통해 사용자를 가져옴
         this.answerService.vote(answer,siteUser);
         // 특정 답변에 사용자의 투표를 반영
-        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
         // 추천 후 사이트 이동
     }
 

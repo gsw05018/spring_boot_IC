@@ -16,7 +16,7 @@ public class AnswerService {
     private final AnswerRepository answerRepository;
     // answerRepository 객체를 받음
 
-    public void create(Question question, String content, SiteUser author){ // question 객체와 content를 매개변수로 받음
+    public Answer create(Question question, String content, SiteUser author){ // question 객체와 content를 매개변수로 받음
 
         Answer answer = new Answer(); // 새로운 Answer 객체 받음
         answer.setContent(content); // 답변 내용 설정
@@ -24,6 +24,7 @@ public class AnswerService {
         answer.setCreateDate(LocalDateTime.now()); // 현자 날짜와 시간을 생성일로 설정
         answer.setAuthor(author); // 답변 저장시 작성자 저장
         this.answerRepository.save(answer); // 답변 저장
+        return answer;
 
     }
 
