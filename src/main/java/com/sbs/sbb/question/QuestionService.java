@@ -64,6 +64,9 @@ public class QuestionService {
         this.questionRepository.save(question); // 객체에 저장
     }
 
+    public void delete(Question question){
+        this.questionRepository.delete(question);
+    }
 
 
 }

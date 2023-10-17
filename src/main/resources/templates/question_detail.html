@@ -59,5 +59,24 @@
         <textarea name="content"  rows="10" class="form-control" th:field="*{content}" sec:authorize="isAuthenticated()" ></textarea>
         <input type="submit" value="답변등록" class="btn btn-primary my-2">
     </form>
+
 </div>
+<!-- JavaScript 코드를 HTML 파일 내에 삽입하는 script 태그입니다. -->
+<script layout:fragment="script" type="text/javascript">
+<!--     delete 클래스를 가진 요소들을 모두 가져와 delete_elements에 저장합니다.-->
+    const delete_elements = document.getElementsByClassName("delete");
+
+<!--     delete_elements의 각 요소에 대해 반복 작업을 수행합니다.-->
+    Array.from(delete_elements).forEach(function(element) {
+<!--         클릭 이벤트를 추가합니다.-->
+        element.addEventListener('click', function() {
+<!--             confirm을 사용하여 사용자에게 삭제 여부를 확인합니다.-->
+            if (confirm("정말로 삭제하시겠습니까?")) {
+<!--                 dataset.uri를 사용하여 해당 질문의 ID를 동적으로 삽입하여 URL을 생성하고 페이지를 이동합니다.-->
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
+
 </html>
