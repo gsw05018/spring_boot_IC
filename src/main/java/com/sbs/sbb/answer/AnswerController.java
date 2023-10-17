@@ -6,11 +6,13 @@ import com.sbs.sbb.user.SiteUser;
 import com.sbs.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 
@@ -40,6 +42,40 @@ public class AnswerController {
 
         return String.format("redirect:/question/detail/%s", id); //해당 id에 대한 question/detail 엔드포인트로 리디렉션함
 
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String answerModify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal){
+        Answer answer = this.answerService.getAnswer(id);
+        // id를 통해 답변을 가져옴
+        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+            // 현재 사용자와 답변 작성자가 맞느지 확인후 오류메시지 출현
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
+        }
+        answerForm.setContent(answer.getContent());
+        // 답변 양식의 내용을 해당 답변의 내용으로 설정
+        return "answer_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String answerModify(@Valid AnswerForm answerForm, BindingResult bindingResult, @PathVariable("id") Integer id, Principal principal){
+        if(bindingResult.hasErrors()){
+            return "answer_form";
+            // form 유효성 검사
+        }
+        Answer answer = this.answerService.getAnswer(id);
+        // id를 통해 답변을 가져옴
+        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+            // 작성자가 맞는지 검증
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다");
+            // 오류메시지 출현
+        }
+        this.answerService.modfy(answer, answerForm.getContent());
+        // 주어진 양식으로 수정하고 저장
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        // 수정후 상세페이지로 이동
     }
 
 }
