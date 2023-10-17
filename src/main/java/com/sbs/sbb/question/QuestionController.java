@@ -28,13 +28,15 @@ public class QuestionController {
     private final UserService userService;
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "0")int page){
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0")int page, @RequestParam(value = "kw", defaultValue = "")String kw){
 
-        Page<Question> paging = this.questionService.getList(page);
+        Page<Question> paging = this.questionService.getList(page, kw);
         // 페이지 번호를 기반으로 questionService의 getList메서드를 호출하여 페이지별 질문 목록을 가져옴
         model.addAttribute("paging", paging);
-        // 모델에 페이징 정보 저장
-
+        // 모델에 페이징 정보 저장    
+        model.addAttribute("kw", kw);
+        // 화면에 입력한 검색어를 유지하기 위해 model에 저장
+        
         return "question_list";
     // html을 출력하기 위해서는 Reposbody를 지우고 getmapping만 사용해 링크를 연결해줌
     // question_list라는 이름의 템플릿을 렌더링하여 반환

@@ -1,5 +1,18 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
+    <!--    검색  -->
+    <div class="row my-3">
+        <div class="col-6">
+            <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
+        </div>
+        <div class="col-6">
+            <div class="input-group">
+                <input type="text" id="search_kw" class="form-control" th:value="${kw}">
+                <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+            </div>
+        </div>
+    </div>
+    <!--    검색끝-->
     <table class="table">
         <thead class="table-dark">
         <tr class="text-center">
@@ -32,27 +45,61 @@
 <!--         페이지 번호를 포함하는 페이지네이션 중앙 정렬   -->
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
 <!--           이전 페이지가 없는 경우 링크 비활성화     -->
-                <a th:href="@{|?page=${paging.number-1}|}" class="page-link" ><span>이전</span></a>
+                <a href="javascript:void(0)" th:data-page="${paging.number-1}" class="page-link" ><span>이전</span></a>
 <!--            이전 페이지로 이동 링크    -->
             </li>
            <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}" th:classappend="${page == paging.number} ? 'active'"
            class="page-item" th:if="${page >= paging.number - 5 and page <= paging.number+5}">
 <!--        현재 페이지를 나타내기 위해 활성화된 페이지 강조  , 현재 페이지를 기준으로 좌우 5개씩 보이게 만듬     -->
-               <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page}"></a>
+               <a class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
 <!--           페이지 번호를 클릭하면 해당 페이지로 이동    -->
            </li>
             <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
 <!--              다음 페이지가 없는 경우 링크 비활성화  -->
-                <a class="page-link" th:href="@{|?page=${paging.number+1}|}"><span>다음</span></a>
+                <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number +1}"><span>다음</span></a>
 <!--            다음 페이지로 이동하는 링크 생성    -->
             </li>
         </ul>
     </div>
 <!--   페이징 끝 -->
-    <a th:href="@{/question/create}" class="btn btn-primary">질문 등록하기</a>
 
     <!-- model 객체에 저장된 questionList를 사용함-->
     <!--th속성은 타임리프 속성임-->
     <!--text속성은 값을 출력함-->
+
+<!--    검색 품-->
+    <form th:action="@{/question/list}" method="get" id="searchForm">
+        <input type="hidden" id="kw" name="kw" th:value="${kw}">
+        <input type="hidden" id="page" name="page" th:value="${paging.number}">
+    </form>
+<!--    검색 폼 끝 -->
+<!--    검색 스크립트-->
+    <script layout:fragment="script" type="text/javascript">
+        const page_elements = document.getElementsByClassName("page-link");
+        // page-link 클래스를 가진 모든 요소를 가져와 page_elements에 저장
+        Array.from(page_elements).forEach(function(element) {
+            // page_elements에 대한 반복문을 실행
+            element.addEventListener('click', function() {
+                // 클릭 이벤트
+                document.getElementById('page').value = this.dataset.page;
+                // 클릭된 요소의 dataset.page값을 가져와 page 요소의 값을 설정
+                document.getElementById('searchForm').submit();
+                // searchForm이라는 ID를 가진 폼을 제출
+            });
+        });
+
+        const btn_search = document.getElementById("btn_search");
+        btn_search.addEventListener('click', function() {
+            document.getElementById('kw').value = document.getElementById('search_kw').value;
+            // 검색어 값을 가져와 kw의 요소값으로 설정
+            document.getElementById('page').value = 0;
+            // 페이지 값을 0으로 설정하여 처음 페이지부터 검색하도록 설정
+            document.getElementById('searchForm').submit();
+            // searchForm이라는 ID를 가진 폼을 제출
+        });
+    </script>
+
+    <!--   검색 스크립트 끝-->
+
 </div>
 </html>
