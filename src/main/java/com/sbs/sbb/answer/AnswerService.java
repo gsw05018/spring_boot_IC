@@ -52,4 +52,11 @@ public class AnswerService {
         this.answerRepository.delete(answer);
     }
 
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser);
+        // 답변에 투표한 사용자 정보를 추가
+        this.answerRepository.save(answer);
+        // 답변 객체를 저장하여 데이터베이스에 반영
+    }
+
 }

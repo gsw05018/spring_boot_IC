@@ -93,4 +93,17 @@ public class AnswerController {
         // 삭제후 상세페이지 이동
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerVote(Principal principal, @PathVariable("id") Integer id){
+        Answer answer = this.answerService.getAnswer(id);
+        // id를 통해 답변을 가져옴
+        SiteUser siteUser = this.userService.getUSer(principal.getName());
+        // name을 통해 사용자를 가져옴
+        this.answerService.vote(answer,siteUser);
+        // 특정 답변에 사용자의 투표를 반영
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        // 추천 후 사이트 이동
+    }
+
 }

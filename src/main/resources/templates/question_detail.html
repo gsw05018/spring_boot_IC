@@ -6,6 +6,7 @@
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
 <!--  제목 아래 밑줄 추가, 상하 여백 추가후 제목은 question에서 가지고온 subject로 함  -->
     <div class="card my-3">
+
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;" th:text="${question.content}"></div>
 <!--      white-space: pre-line 텍스트 줄바꿈 유지     -->
@@ -26,6 +27,10 @@
             </div>
 <!--            수정버튼-->
             <div class="my-3">
+                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                   th:data-uri="@{|/question/vote/${question.id}|}">추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+                </a>
                 <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                 th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" th:text="수정"></a>
 <!--            로그인 한 사용자와 글쓴이가다를시 수정버튼은 안보임    -->
@@ -58,6 +63,11 @@
                 </div>
             </div>
             <div class="my-3">
+                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                   th:data-uri="@{|/answer/vote/${answer.id}|}">
+                    추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+                </a>
                 <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
                    th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
@@ -92,6 +102,16 @@
 <!--             confirm을 사용하여 사용자에게 삭제 여부를 확인합니다.-->
             if (confirm("정말로 삭제하시겠습니까?")) {
 <!--                 dataset.uri를 사용하여 해당 질문의 ID를 동적으로 삽입하여 URL을 생성하고 페이지를 이동합니다.-->
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+
+<!--  추천  -->
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function(element){
+        element.addEventListener('click', function(){
+            if(confirm("정말로 추천하시겠습니까?")){
                 location.href = this.dataset.uri;
             };
         });
