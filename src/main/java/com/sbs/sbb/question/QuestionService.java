@@ -57,6 +57,13 @@ public class QuestionService {
         this.questionRepository.save(q); // 새로운 questijon객체를 저장
     }
 
+    public void modify(Question question, String subject,String content){
+        question.setSubject(subject); // question 객체의 제목을 매개변수 값으로 변경
+        question.setContent(content); // 내용을 매개변수 값으로 변경
+        question.setModifyDate(LocalDateTime.now()); // 수정날짜를 현재시간으로 변경
+        this.questionRepository.save(question); // 객체에 저장
+    }
+
 
 
 }
