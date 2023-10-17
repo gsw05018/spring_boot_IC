@@ -24,8 +24,13 @@
                 <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
                 th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" th:text="수정"></a>
 <!--            로그인 한 사용자와 글쓴이가다를시 수정버튼은 안보임    -->
+                <!--           수정버튼 끝 -->
+                <!--          삭제버튼   -->
+                <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}" th:text="삭제"></a>
+                <!--            삭제버튼끝 -->
+
             </div>
-<!--           수정버튼 끝 -->
         </div>
     </div>
     <!-- 답변의 갯수 표시 -->
