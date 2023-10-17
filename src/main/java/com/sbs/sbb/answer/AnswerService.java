@@ -48,4 +48,8 @@ public class AnswerService {
         // 답변수정 저장
     }
 
+    public void delete(Answer answer){
+        this.answerRepository.delete(answer);
+    }
+
 }

@@ -78,4 +78,19 @@ public class AnswerController {
         // 수정후 상세페이지로 이동
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String answerDelete(Principal principal, @PathVariable("id") Integer id){
+        Answer answer = this.answerService.getAnswer(id);
+        // id를 통해 답변을 가져옴
+        if(!answer.getAuthor().getUsername().equals(principal.getName())){
+            // 작성자 검증
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 업습니다");
+        }
+        this.answerService.delete(answer);
+        // 답변 삭제
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+        // 삭제후 상세페이지 이동
+    }
+
 }
